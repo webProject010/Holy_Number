@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Angka Keberuntungan</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #6b46c1, #4338ca);
+      color: white;
+      text-align: center;
+    }
+    .box {
+      background: rgba(255,255,255,0.2);
+      padding: 30px;
+      border-radius: 20px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+    .number {
+      font-size: 64px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>Angka Keberuntungan Hari Ini</h1>
+    <div id="number" class="number">...</div>
+    <p>Akan reset otomatis setiap jam 5 pagi</p>
+  </div>
+
+  <script>
+    function getLuckyNumber() {
+      const now = new Date();
+      let resetTime = new Date(now);
+      resetTime.setHours(5, 0, 0, 0);
+
+      if (now < resetTime) {
+        resetTime.setDate(resetTime.getDate() - 1);
+      }
+
+      const seed = resetTime.toDateString();
+      let hash = 0;
+      for (let i = 0; i < seed.length; i++) {
+        hash = seed.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      return Math.abs(hash % 100) + 1; // angka 1-100
+    }
+
+    document.getElementById("number").innerText = getLuckyNumber();
+  </script>
+</body>
+</html>
